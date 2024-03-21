@@ -2,9 +2,9 @@
 
 # Contents
 - [Intro](#Intro)
-- [Code Demonstration](#codedemonstration)
-- [Demo game script](#Demo game script)
-- [Prompt Engineering framework] (#Prompt Engineering framework)
+- [Code](#code)
+- [NarrativeScript](#narrativescript)
+- [PromptEngineeringFramework] (#promptengineeringframework)
 
 
 # Intro
