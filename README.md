@@ -24,13 +24,17 @@ The player can control the emotional tone of the generated text content, by chan
 # Code
 This repository has mainly three components for running the demo. 😊
 
+[python code：
+
+The python code is the main part to control the text generation, including the prompt defining, state transition of the narrative.
+
+REMEMBER: 
+#replace the api key/base with your own key/base~
+
+#connecting to your device like Arduino Uno/Esp32...., please replace'COM4' with the actual one your are using. you can change the analog read port based on the controller that you are using~
+
+
 python code：
-
-
-#replace the api key with your own key
-
-#connecting to your device like Arduino Uno/Esp32...., please replace'COM4' with the actual one your are using
-
 
 # NarrativeScript
 
