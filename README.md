@@ -1,7 +1,7 @@
 # The Island of Light
 
 # Contents
-- [Intro](#Intro)
+- [Intro](#Introa)
 - [Code Demonstration](#Code Demonstration)
 - [Demo game script](#Demo game script)
 - [Prompt Engineering framework] (#Prompt Engineering framework)
