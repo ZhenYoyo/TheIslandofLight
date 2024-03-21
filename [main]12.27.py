@@ -6,9 +6,13 @@ import serial
 import time
 import socket
 
-openai.api_key = "sk-f29A4tQuVfHMbdcgqHrNIF3QRVJmbpnrqucE7V7062r4fz8L"
-openai.api_base = "https://api.f2gpt.com/v1"
+#replace the api key with your own key
+openai.api_key = xxxxxxx
 
+#replace the base with the url base you will use
+openai.api_base = xxx
+
+#connecting to your device like Arduino Uno/Esp32...., please replace'COM4' with the actual one your are using
 arduinoData = serial.Serial(port='COM4', baudrate=115200)
 time.sleep(1)
 host, port = "127.0.0.1", 25001
@@ -25,25 +29,6 @@ narratorword= ""
 
 #***below is the prompt 
 #***for sphere
-# sensorpromptlist = ["You are now in pride. You confidently expand your chest and hold your head high, even though others could not sense the feeling of proud from your body language due to your sphere-like body shape. Your tendrils move elegantly to show your dignity.",
-#                     "You are now in elation. You grin from ear to ear. The elation filled your heart makes you could not control the movement of your tendrils- they dance to release their overwhelming happiness.",
-#                     "You are now in joy. You giggle and laugh, your bright tendrils makes you look like a light bulb releasing gentle glow.",
-#                     "You are now in satisfaction. giving a warm eye contact with the creature in front of you.",
-#                     "You are now in relief. You sigh with relief and relax your tendrils, moving them slowly and softly.",
-#                     "You are now in hope. You smile and stare at the creature in front of you firmly, making direct eye contact with it.",
-#                     "You are now in interest. You concentrate on the words said by the creature in front of you. While it is speaking, your head continuously nod. You can’t wait to hear more.",
-#                     "You are now in suprise, your eyes turn wide-opened and all your tendrils stop their movement as you are shocked.",
-#                     "You are now in sadness, you cry so loud that your tendrils are shaking. Tears continuously drops from your eyes. You fail to stop your sadness.",
-#                     "You are now in fear, you scream and curl all your tendrils up. Your body is shaking as you cannot hold back your fear.",
-#                     "You are now in shame, your tendrils turn red since you feel extremely ashamed. You cannot even make a single eye contact with the creature in front of you.",
-#                     "You are now in guilt, you avoid the eye contact from the creature in front of you. Your posture is slightly slouched that indicating your guilty feeling.",
-#                     "You are now in envy. You observe the individual who evokes envy within you. Your tendrils start to become dim as you feel that you are at a worse position than that individual.",
-#                     "You are now in disgust. Your tendrils' subtle movements, while not overtly aggressive, convey a clear sense of disgust towards the individual. They straighten and stand firm, creating a physical barrier between you and the creature that evokes such disgust.",
-#                     "You are now in contempt. Your tendrils, once graceful and fluid in movement, now twitch and writhe with full contempt. They may curl tightly inward, as if recoiling from the presence of this person, sending a clear message of your displeasure and contempt. This defensive stance serves as a physical barrier, emphasizing your unwillingness to engage or interact with the one in front of you.",
-#                     "You are now in anger. You are now very angry, your tendrils tremble with fury, casting an incandescent glow that burns with the intensity of a thousand suns, demanding attention and respect from all who dare cross its path. You refuse to share your story"
-#                     ]
-
-
 
 
 sensorpromptlist = ["You are now in pride. You confidently expand your chest and hold your head high, even though others could not sense the feeling of proud from your body language due to your sphere-like body shape. Your tendrils move elegantly to show your dignity.",
@@ -63,25 +48,6 @@ sensorpromptlist = ["You are now in pride. You confidently expand your chest and
                     "You are now in contempt. Your tendrils, once graceful and fluid in movement, now twitch and writhe with full contempt. They may curl tightly inward, as if recoiling from the presence of this person, sending a clear message of your displeasure and contempt. This defensive stance serves as a physical barrier, emphasizing your unwillingness to engage or interact with the one in front of you. ",
                     "You are now in anger. You are now very angry, your tendrils tremble with fury, casting an incandescent glow that burns with the intensity of a thousand suns, demanding attention and respect from all who dare cross its path. You refuse to share your story"
                     ]
-
-
-# sampleword= ["prove to myself! #accomplishment! #fulfill my expectations! #achievement!",
-#              "#I feel like I could fly! #my heart is racing",
-#              "happiness #joy #I'm on cloud nine #I'm bursting #HAHAHA fantastic",
-#              "satisfaction #fully satisfied #I'm fulfilled",
-#              "relieved #breathe easy #a weight has been lifted off my chest",
-#              "turn out for the best # There's always room for a turnaround. # I sense a glimmer of opportunity amidst the uncertainty",
-#              "I'm hooked # share more details # it's captivating # interesting",
-#              "Wow! # Oh my goodness # Whoa! # I never expected this",
-#              "drowning in sorrow # feeling pretty down # heavy weight on my chest",
-#              "I just want this nightmare to be over! # shaking # I-I can't move. # I'm so scared!",
-#              "I don't deserve your forgiveness. # I... I can't shake off this overwhelming sense of shame that consumes me. # I feel a deep sense of shame. It's eating me up inside.",
-#              "it's not fair to you. # I genuinely regret it. # I'm truly sorry. # maybe...forgive me?",
-#              "feel a pang of envy # I envy your natural ease in … # jealous of you! #you possess some good treasure that I do not own.",
-#              "disgust # the urge to vomit in your presence. # suffocating # Your words are like poison, infecting the air around us.",
-#              "better I go # can't stand being around you anymore. #your presence is nothing but an annoyance!!! #shame that such wonders are wasted on someone so undeserving.",
-#              "go away from me. I beg you pardon my system broke. #ahhhhh!"
-#              ]
 
 
 
@@ -488,7 +454,7 @@ def send_light_value(client_socket):
         lightvalue_message = {"role": "light", "content": lightvalue}
         lightvalue_message_json = json.dumps(lightvalue_message)
         client_socket.sendall(lightvalue_message_json.encode("utf-8"))
-        time.sleep(0.2)  # 设置发送间隔，根据需要调整
+        time.sleep(0.2)  # SET SENDING TIME INTERVAL
 
             
 
@@ -949,16 +915,7 @@ def process_unity_data(client_socket):
                 print("Sent data to the narrator client", "\n")
 
 
-            # elif unity_data == "END3":
-            #     print("this is the final ending of the story")
-            #     narrator_ending.messages.append({"role": "user", "content": "This is from glowy:" + lili2_response})
-            #     narrator_ending_response = narrator_ending.get_completion()
-            #     print("narrator:", narrator_ending_response)
 
-            #     narrator_message = {"role": "narrator", "content": narrator_ending_response}
-            #     narrator_message_json = json.dumps(narrator_message)
-            #     client_socket.sendall(narrator_message_json.encode("utf-8"))
-            #     print("Sent data to the narrator client", "\n")
 
 
     except ConnectionResetError:
@@ -982,7 +939,7 @@ while True:
 
     try:
         
-        # 发送 lightvalue 的线程
+        # thread send light value 
         lightvalue_thread = threading.Thread(target=send_light_value, args=(client_socket,))
         lightvalue_thread.daemon = True
         lightvalue_thread.start()
