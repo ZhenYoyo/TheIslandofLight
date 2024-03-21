@@ -4,7 +4,7 @@
 - [Intro](#Intro)
 - [Code](#code)
 - [NarrativeScript](#narrativescript)
-- [PromptEngineeringFramework] (#promptengineeringframework)
+- [Prompt] (#prompt)
 
 
 # Intro
@@ -17,7 +17,7 @@ The game scene:
 
 
 
-# Code Demonstration
+# Code
 This repository has mainly three components for running the demo. 😊
 
 python code：
@@ -28,9 +28,9 @@ python code：
 #connecting to your device like Arduino Uno/Esp32...., please replace'COM4' with the actual one your are using
 
 
-# Demo game script
+# NarrativeScript
 
-# Prompt Engineering framework
+# Prompt
 
 + chat history example
 
