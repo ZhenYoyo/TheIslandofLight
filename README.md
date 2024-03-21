@@ -2,9 +2,9 @@
 
 # Contents
 - [Intro](#Intro)
-- [Code Demonstration](#code)
-- [Demo game script](#heading-two)
-- [Prompt Engineering framework] (#heading-two)
+- [Code Demonstration](#Code Demonstration)
+- [Demo game script](#Demo game script)
+- [Prompt Engineering framework] (#Prompt Engineering framework)
 
 
 # Intro
@@ -28,7 +28,9 @@ python code：
 #connecting to your device like Arduino Uno/Esp32...., please replace'COM4' with the actual one your are using
 
 
+# Demo game script
 
+# Prompt Engineering framework
 
 + chat history example
 
