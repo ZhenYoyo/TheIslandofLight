@@ -4,7 +4,7 @@
 - [Intro](#Intro)
 - [Code](#code)
 - [NarrativeScript](#narrativescript)
-- [Prompt] (#prompt)
+- [Prompt] (#Prompt)
 
 
 # Intro
