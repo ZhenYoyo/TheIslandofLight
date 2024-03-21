@@ -1,4 +1,4 @@
-# TheIslandofLight
+# The Island of Light
 
 # Contents
 - [Intro](#Intro)
@@ -17,7 +17,7 @@ The game scene:
 
 
 
-
+# Code Demonstration
 This repository has mainly three components for running the demo. 😊
 
 python code：
