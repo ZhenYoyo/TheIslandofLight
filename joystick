@@ -1,0 +1,29 @@
+const int joystick_x_pin = 35; 
+const int joystick_y_pin = 34;
+
+void setup() {
+  Serial.begin(115200);   /* Define baud rate for serial communication */
+}
+
+void loop() {
+  int x_adc_val, y_adc_val; 
+  float x_volt, y_volt;
+  x_adc_val = analogRead(joystick_x_pin); 
+  y_adc_val = analogRead(joystick_y_pin);
+  x_volt = ( ( x_adc_val * 3.3 ) / 4095 );  /*Convert digital value to voltage */
+  y_volt = ( ( y_adc_val * 3.3 ) / 4095 );  /*Convert digital value to voltage */
+  Serial.print("X_Voltage = ");
+  Serial.print(x_volt);
+  Serial.print("\t");
+  Serial.print("Y_Voltage = ");
+  Serial.println(y_volt);
+
+  if (x_volt == 3.30) {
+     
+  }
+  else{
+     
+  }
+  
+  delay(100);
+}
