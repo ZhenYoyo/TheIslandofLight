@@ -1,0 +1,324 @@
+//this code should be attached to the main character
+using UnityEngine;
+using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+
+[System.Serializable]
+ public class Message
+{
+    public string role;
+    public string content;
+}
+
+public class SocketJSON : MonoBehaviour
+{
+    private Socket clientSocket;
+    private byte[] buffer = new byte[4096];
+    public string receivedPrompt;
+    public string agentmainresponse;
+    public string agent2response;
+    public string agent3response;
+    public string TPmanagerresponse;
+    public string TPmanager2response;
+    public string lightmessage;
+    public string luminarestart;
+    public string glowyrestart;
+    public string narrator;
+    public GameObject agent2area;
+    public GameObject agent3area;
+    public bool stopswinging = false;
+    public bool stopswinging2 = false;
+    public bool endingvisual = false;
+    public bool unlockglowy = false;
+
+    //public string mousemessage;
+
+    NarratorUpdatingScript narratorUpdatingScript;
+    [SerializeField] GameObject narrator_text;
+
+
+    void Awake()
+    {
+        narratorUpdatingScript = narrator_text.GetComponent<NarratorUpdatingScript>();
+    }
+
+
+    private void Start()
+    {
+        ConnectToServer();
+    }
+
+
+
+    /*private void update()
+    {
+        if (updatingScript.isTextComplete == true)
+        {
+            SendMessageToServer("D");
+        }
+    }
+    */
+
+    private void Update()
+    {
+        if (TPmanagerresponse == "unlockglowy")
+        {
+            unlockglowy = true;
+        }
+
+        if (TPmanagerresponse == "unlockfinalending" || TPmanagerresponse =="TP2" || TPmanagerresponse == "TP4") 
+        {
+            //SendMessageToServer("END3");
+            endingvisual = true;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject == agent2area)
+        {
+            //SendMessageToServer("A");
+            stopswinging = true;
+
+            if (TPmanagerresponse == "TP1")
+            {
+                SendMessageToServer("A1");
+            }
+
+            //here is leading end
+            else if (TPmanagerresponse == "TP2")
+            {
+                SendMessageToServer("END1");
+            }
+
+            else if (TPmanagerresponse == "unlockfinalending")
+            {
+                //SendMessageToServer("END3");
+                endingvisual = true;
+            }
+
+            else if (TPmanagerresponse == "unlockglowy")
+            {
+                SendMessageToServer("A1");
+      
+            }
+
+            else
+            {
+
+                SendMessageToServer("A");
+            }
+
+
+
+            /*else if (TPmanagerresponse == "TP2")
+            {
+              TPmanagerresponse = "TP1";
+            }
+            
+            */
+        }
+
+        else if (collision.gameObject == agent3area)
+        {
+            stopswinging2 = true;
+            if (TPmanagerresponse == "unlockglowy")
+            {
+                if (TPmanager2response == "TP3")
+                {
+                    SendMessageToServer("B1");
+                }
+
+                else if (TPmanager2response == "TP4")
+                {
+                    SendMessageToServer("END2");
+                }
+
+                else
+                {
+                    SendMessageToServer("B");
+                }
+            }
+
+            else
+            {
+                SendMessageToServer("C");
+            }
+        }
+
+        //1.27
+
+
+        else 
+        {
+
+            if (narratorUpdatingScript.isTextComplete == true)
+            {
+                // narrator telling story about the island
+                SendMessageToServer("D");
+            }
+
+            else if (narratorUpdatingScript.isTextComplete == false)
+            {
+                // narrator telling story about the island
+                SendMessageToServer("D1");
+            }
+        }
+    }
+/*private void Update()
+    {
+        if (collision.gameObject == objectB)
+        //if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SendMessageToServer("A");
+        }
+    }
+*/
+
+private void SendMessageToServer(string message)
+    {
+        try
+        {
+            // 将字符串转换为字节数组
+            byte[] data = Encoding.UTF8.GetBytes(message);
+
+            // 发送数据到服务器
+            clientSocket.Send(data);
+
+            Debug.Log("Sent message to server: " + message);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to send data to server: " + e.Message);
+        }
+    }
+
+
+
+    private void ConnectToServer()
+    {
+        try
+        {
+            // 创建Socket对象
+            clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+            // 连接服务器
+            IPAddress serverIP = IPAddress.Parse("127.0.0.1");
+            IPEndPoint serverEndPoint = new IPEndPoint(serverIP, 25001);
+            clientSocket.Connect(serverEndPoint);
+
+            // 开始异步接收数据
+            clientSocket.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, ReceiveCallback, null);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to connect to the server: " + e.Message);
+        }
+    }
+
+    private void ReceiveCallback(IAsyncResult asyncResult)
+    {
+        try
+        {
+            // 结束接收数据，并获取接收到的字节数
+            int bytesRead = clientSocket.EndReceive(asyncResult);
+
+            if (bytesRead > 0)
+            {
+                string receivedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                Message message = JsonUtility.FromJson<Message>(receivedData);
+                string role = message.role;
+                string content = message.content;
+                if (role == "agentmain")
+                {
+                    agentmainresponse = content;
+                    Debug.Log("Received message from agentmain: " + content);
+                }
+                else if (role == "agentlala")
+                {
+                    agent2response = content;
+                    Debug.Log("Received message from agentlala: " + content);
+                }
+
+                else if (role == "agentlili")
+                {
+                    agent3response = content;
+                    Debug.Log("Received message from agentlili: " + content);
+                }
+
+                else if (role == "TPmanager")
+                {
+                    TPmanagerresponse = content;
+                    Debug.Log("Received message from TPmanager: " + content);
+                }
+
+                else if (role == "TPmanager2")
+                {
+                    TPmanager2response = content;
+                    Debug.Log("Received message from TPmanager2: " + content);
+                }
+
+
+                else if (role == "light")
+                {
+                    lightmessage = content;
+                    Debug.Log("Received message from light: " + content);
+                }
+
+                //if need to map mouse control
+                /*
+                else if(role == "mousecontrol")
+                {
+                    mousemessage = content;
+                    Debug.Log("Received message from mouse: " + content);
+                }
+                */
+                else if (role == "luminarestart")
+                {
+                    luminarestart = content;
+                    Debug.Log("Received message from luminarestart: " + content);
+                }
+
+
+                else if (role == "glowyrestart")
+                {
+                    glowyrestart = content;
+                    Debug.Log("Received message from glowyrestart: " + content);
+                }
+
+                else if (role == "narrator")
+                {
+                    narrator = content;
+                    Debug.Log("Received message from narrator: " + content);
+                }
+
+
+                // 解析接收到的数据
+                //string receivedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                //Debug.Log("Received data from server: " + receivedData);
+                //receivedPrompt = receivedData;
+
+            }
+
+            // 继续异步接收数据
+            clientSocket.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, ReceiveCallback, null);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to receive data from server: " + e.Message);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // 关闭Socket连接
+        if (clientSocket != null && clientSocket.Connected)
+        {
+            clientSocket.Shutdown(SocketShutdown.Both);
+            clientSocket.Close();
+        }
+    }
+}
